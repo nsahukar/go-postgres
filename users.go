@@ -52,7 +52,7 @@ func AddUser(u User) int {
 
 	db, err := openConnection()
 	if err != nil {
-		fmt.Println("AddUser:openConnection:", err)
+		fmt.Println(err)
 		return -1
 	}
 	defer db.Close()
@@ -68,7 +68,7 @@ func AddUser(u User) int {
 	// This is how you pass the desired value into the insertStmt
 	_, err = db.Exec(insertStmt, u.Username)
 	if err != nil {
-		fmt.Println("AddUser:insert user:", err)
+		fmt.Println(err)
 		return -1
 	}
 
@@ -80,7 +80,7 @@ func AddUser(u User) int {
 	insertStmt = `INSERT INTO "userdata" ("userid", "name", "surname", "description") VALUES ($1, $2, $3, $4)`
 	_, err = db.Exec(insertStmt, userId, u.Name, u.Surname, u.Description)
 	if err != nil {
-		fmt.Println("AddUser:insert userdata:", err)
+		fmt.Println(err)
 		return -1
 	}
 
@@ -178,7 +178,7 @@ func UpdateUser(u User) error {
 
 	u.ID = userId
 	updateStmt := `UPDATE "userdata" SET "name"=$1, "surname"=$2, description=$3 
-	WHERE "userid"=$4`
+					WHERE "userid"=$4`
 	_, err = db.Exec(updateStmt, u.Name, u.Surname, u.Description, u.ID)
 	if err != nil {
 		return err
