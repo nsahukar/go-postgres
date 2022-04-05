@@ -142,7 +142,7 @@ func ListUsers() ([]User, error) {
 	FROM "users", "userdata" 
 	WHERE users.id = userdata.userid`)
 	if err != nil {
-		return users, err
+		return users, fmt.Errorf("ListUsers: %s", err)
 	}
 
 	for rows.Next() {
